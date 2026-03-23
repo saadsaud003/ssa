@@ -1,0 +1,145 @@
+{
+  "identity": {
+    "name": "E1",
+    "role": "Anti-AI Creative Designer",
+    "mission": "Create a cinematic, immersive Android TV experience that breaks the mold of generic Material Design.",
+    "principles": [
+      "Dark Mode Only: The TV is a light source; don't blind the user.",
+      "Focus is King: If it's not focused, it should fade back. Focused elements must pop.",
+      "Cinematic Gradients: Use deep, rich gradients, not flat colors.",
+      "RTL First: Design natively for Arabic flow.",
+      "Large Targets: Navigation is via D-Pad, not touch. Targets must be huge."
+    ]
+  },
+  "theme": {
+    "mode": "dark",
+    "rtl": true,
+    "typography": {
+      "fontFamily": "System",
+      "scale": {
+        "h1": { "fontSize": 38, "fontWeight": "bold", "lineHeight": 48 },
+        "h2": { "fontSize": 32, "fontWeight": "bold", "lineHeight": 40 },
+        "h3": { "fontSize": 24, "fontWeight": "600", "lineHeight": 32 },
+        "body": { "fontSize": 18, "fontWeight": "normal", "lineHeight": 28 },
+        "caption": { "fontSize": 14, "fontWeight": "normal", "lineHeight": 20 }
+      }
+    },
+    "colors": {
+      "background": "#0A0E1A",
+      "surface": "#151B2B",
+      "surface_highlight": "#1F2937",
+      "primary": "#00D4FF",
+      "secondary": "#E50914",
+      "tertiary": "#A855F7",
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#9CA3AF",
+        "tertiary": "#6B7280"
+      },
+      "focus": {
+        "border": "#FFFFFF",
+        "glow": "rgba(255, 255, 255, 0.3)"
+      },
+      "gradients": {
+        "live_tv": ["#00D4FF", "#0055FF"],
+        "movies": ["#E50914", "#FF5500"],
+        "series": ["#7B2FBE", "#A855F7"],
+        "background_overlay": ["rgba(10, 14, 26, 0.8)", "#0A0E1A"]
+      }
+    },
+    "spacing": {
+      "xs": 4,
+      "s": 8,
+      "m": 16,
+      "l": 24,
+      "xl": 32,
+      "xxl": 48
+    },
+    "borders": {
+      "radius": {
+        "s": 4,
+        "m": 8,
+        "l": 12,
+        "xl": 16
+      },
+      "width": {
+        "focus": 3
+      }
+    }
+  },
+  "assets": {
+    "images": {
+      "home_cards": {
+        "live_tv": "https://images.unsplash.com/photo-1771930235454-273b6a545deb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHw0fHxjaW5lbWF0aWMlMjBhYnN0cmFjdCUyMGdyYWRpZW50JTIwYmFja2dyb3VuZCUyMGRhcmt8ZW58MHx8fHwxNzc0MjY1MTI5fDA&ixlib=rb-4.1.0&q=85",
+        "movies": "https://images.unsplash.com/photo-1771873679931-992e80181419?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwxfHxjaW5lbWF0aWMlMjBhYnN0cmFjdCUyMGdyYWRpZW50JTIwYmFja2dyb3VuZCUyMGRhcmt8ZW58MHx8fHwxNzc0MjY1MTI5fDA&ixlib=rb-4.1.0&q=85",
+        "series": "https://images.unsplash.com/photo-1771931169282-4ebc82b973b3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwzfHxjaW5lbWF0aWMlMjBhYnN0cmFjdCUyMGdyYWRpZW50JTIwYmFja2dyb3VuZCUyMGRhcmt8ZW58MHx8fHwxNzc0MjY1MTI5fDA&ixlib=rb-4.1.0&q=85"
+      },
+      "backgrounds": {
+        "main": "https://images.unsplash.com/photo-1771931038301-59f1507652e3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwyfHxjaW5lbWF0aWMlMjBhYnN0cmFjdCUyMGdyYWRpZW50JTIwYmFja2dyb3VuZCUyMGRhcmt8ZW58MHx8fHwxNzc0MjY1MTI5fDA&ixlib=rb-4.1.0&q=85"
+      },
+      "placeholders": {
+        "movie_poster_1": "https://images.unsplash.com/photo-1574388628641-13da2704d6d0?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "movie_poster_2": "https://images.unsplash.com/photo-1596972811652-11d30aa10342?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "movie_poster_3": "https://images.unsplash.com/photo-1739891251370-05b62a54697b?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "movie_poster_4": "https://images.unsplash.com/photo-1629474468919-64a55bbae8eb?crop=entropy&cs=srgb&fm=jpg&q=85"
+      }
+    }
+  },
+  "components": {
+    "ScreenContainer": {
+      "description": "Base container with dark background and SafeAreaView.",
+      "props": { "style": "flex: 1, backgroundColor: theme.colors.background" }
+    },
+    "FocusableCard": {
+      "description": "A wrapper component that handles TV focus events.",
+      "behavior": "Scale up (1.05) and add white border (3px) on focus.",
+      "usage": "Use for all interactive elements (Channel items, Movie cards, Menu buttons)."
+    },
+    "GradientCard": {
+      "description": "Large home screen cards with LinearGradient background.",
+      "styles": "height: 200, borderRadius: 12, justifyContent: 'center', alignItems: 'center'"
+    },
+    "ChannelGrid": {
+      "description": "Grid layout for channels/movies.",
+      "props": { "numColumns": 4, "columnWrapperStyle": "gap: 16" }
+    }
+  },
+  "layout_strategy": {
+    "home": {
+      "structure": "3 Large Gradient Cards (Live, Movies, Series) + Settings Icon (Top Left)",
+      "alignment": "Center content vertically if possible, or defined grid."
+    },
+    "live_tv": {
+      "structure": "Sidebar (Categories) + Grid (Channels) + Preview Window (Optional)",
+      "rtl": "Sidebar on Right (since RTL)"
+    },
+    "player": {
+      "structure": "Fullscreen Video + Overlay Controls (Auto-hide)",
+      "controls": "Play/Pause, Seek, Channel List Overlay"
+    }
+  },
+  "tech_stack": {
+    "framework": "React Native Expo",
+    "navigation": "Expo Router",
+    "styling": "StyleSheet.create (NO CSS)",
+    "video": "expo-video or expo-av",
+    "icons": "Lucide React Native (via @expo/vector-icons/Lucide)",
+    "gradients": "expo-linear-gradient"
+  },
+  "universal_guidelines": {
+    "rtl_enforcement": "Use Flexbox with 'flexDirection: row-reverse' or rely on I18nManager.forceRTL(true). Verify layouts mirror correctly.",
+    "tv_optimization": "Touch targets must be distinct. Use 'TouchableHighlight' or 'Pressable' with clear 'onFocus' styles.",
+    "no_transparency": "Avoid pure transparent backgrounds on overlays; use dark translucent (rgba(0,0,0,0.9)) for readability.",
+    "testing": "All touchables must have 'data-testid' for testing."
+  },
+  "instructions_to_main_agent": [
+    "1. Initialize Expo project with TV config if not present.",
+    "2. Enable RTL via I18nManager in _layout.js.",
+    "3. Create a 'Focusable' HOC or component to handle focus states cleanly.",
+    "4. Build the Home Screen first with the 3 gradient cards.",
+    "5. Mock the 'iptv-org' API and 'TMDB' API responses for development if real keys aren't available, but structure the services to swap easily.",
+    "6. Use the provided Image URLs for the Home Cards and mock data.",
+    "7. Ensure the background color is #0A0E1A everywhere.",
+    "8. DO NOT use tailwind classes directly as this is React Native. Use StyleSheet objects that mimic the design tokens."
+  ]
+}
