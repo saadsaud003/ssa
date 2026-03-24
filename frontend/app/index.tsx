@@ -69,7 +69,7 @@ export default function HomeScreen() {
         <View style={styles.navBar}>
           <View style={styles.logoRow}>
             <Ionicons name="play-circle" size={22} color="#E50914" />
-            <Text style={styles.logoText}>SaadTV</Text>
+            <Text style={styles.logoText}>تلفزيون المسودي</Text>
           </View>
           <View style={styles.navTabs}>
             {NAV_TABS.map((tab) => (

@@ -1,22 +1,37 @@
 {
   "expo": {
-    "name": "IPTV Pro",
-    "slug": "iptv-pro",
-    "version": "1.0.0",
-    "orientation": "landscape",
+    "name": "تلفزيون المسودي",
+    "slug": "almasoudi-tv",
+    "version": "1.2.0",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
-    "scheme": "iptvpro",
+    "scheme": "almausdi-tv",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
+    "extra": {
+      "EXPO_PUBLIC_BACKEND_URL": "https://iptv-tv-overhaul.preview.emergentagent.com"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.almasoudi.tv",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
+      "package": "com.almasoudi.tv",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#0A0E1A"
       },
       "edgeToEdgeEnabled": true,
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
       "intentFilters": [
         {
           "action": "android.intent.action.MAIN",
@@ -40,7 +55,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#0A0E1A"
         }
       ],
       "expo-video"

@@ -100,7 +100,7 @@ export default function SettingsScreen() {
     } else if (id === 'about') {
       Alert.alert(
         'معلومات التطبيق',
-        'IPTV Pro - SaadTV\nالإصدار: 1.2.0\n\nمصادر البيانات:\n• IPTV-ORG للقنوات المجانية\n• TheMovieDB للأفلام والمسلسلات\n• Videasy لتشغيل المحتوى',
+        'تلفزيون المسودي\nالإصدار: 1.2.0\n\nمصادر البيانات:\n• IPTV-ORG للقنوات المجانية\n• TheMovieDB للأفلام والمسلسلات\n• Videasy لتشغيل المحتوى',
         [{ text: 'حسناً' }]
       );
     } else if (id === 'font') {
@@ -119,7 +119,7 @@ export default function SettingsScreen() {
         <View style={styles.navBar}>
           <View style={styles.logoRow}>
             <Ionicons name="play-circle" size={22} color="#E50914" />
-            <Text style={styles.logoText}>SaadTV</Text>
+            <Text style={styles.logoText}>تلفزيون المسودي</Text>
           </View>
           <View style={styles.navTabs}>
             {NAV_TABS.map(tab => (
@@ -210,9 +210,9 @@ export default function SettingsScreen() {
         {/* App Info Footer */}
         <View style={styles.footer}>
           <Ionicons name="play-circle" size={32} color="#E50914" />
-          <Text style={styles.footerTitle}>IPTV Pro - SaadTV</Text>
+          <Text style={styles.footerTitle}>تلفزيون المسودي</Text>
           <Text style={styles.footerVersion}>الإصدار 1.2.0</Text>
-          <Text style={styles.footerDev}>SaadTV Dev</Text>
+          <Text style={styles.footerDev}>تلفزيون المسودي Dev</Text>
         </View>
       </ScrollView>
     </View>
