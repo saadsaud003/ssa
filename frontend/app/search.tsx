@@ -218,7 +218,7 @@ export default function SearchScreen() {
             <Ionicons name="search-outline" size={18} color="#6B7280" style={{ marginLeft: 8 }} />
             <TextInput
               ref={inputRef}
-              testID="global-search-input"
+              testID="search-input"
               style={styles.searchInput}
               placeholder="ابحث عن قنوات، أفلام، مسلسلات..."
               placeholderTextColor="#6B7280"

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet, FlatList,
   Image, ActivityIndicator, TextInput, ScrollView,
-  Dimensions, Animated,
+  Dimensions, Animated, Alert,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -318,7 +318,7 @@ export default function LiveTVScreen() {
 async function addToFavorites(channel: Channel) {
   try {
     const BACKEND = process.env.EXPO_PUBLIC_BACKEND_URL || '';
-    await fetch(`${BACKEND}/api/favorites`, {
+    const res = await fetch(`${BACKEND}/api/favorites`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -329,7 +329,15 @@ async function addToFavorites(channel: Channel) {
         stream_url: channel.stream_url,
       }),
     });
-  } catch (e) {}
+    const data = await res.json();
+    if (data.already_exists) {
+      Alert.alert('المفضلة', 'القناة موجودة بالفعل في المفضلة');
+    } else {
+      Alert.alert('المفضلة', `تمت إضافة "${channel.name}" إلى المفضلة ✓`);
+    }
+  } catch (e) {
+    Alert.alert('خطأ', 'تعذر الإضافة إلى المفضلة');
+  }
 }
 
 function LinearOverlay() {

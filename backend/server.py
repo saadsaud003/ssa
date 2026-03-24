@@ -70,7 +70,7 @@ async def fetch_iptv_data(force: bool = False):
                 return
 
         logger.info("Fetching IPTV channels from iptv-org...")
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
 
         channels_data = await loop.run_in_executor(None, lambda: _fetch_url(IPTV_CHANNELS_URL, 30))
         logger.info(f"Fetched {len(channels_data)} channels")
