@@ -1,0 +1,457 @@
+<analysis>**original_problem_statement:**
+The user wants to build an Android TV application similar to IPTV Smarters Pro.
+
+**PRODUCT REQUIREMENTS:**
+- The UI should resemble IPTV Smarters Pro, displaying channels in a grid with logos and broadcast schedules.
+- The design must be in Arabic (RTL).
+- Use the  API as the primary source for open-source channels.
+- The search engine should be linked to TheMovieDB API to fetch movie posters and metadata. The API key is .
+- The application must include a video player that supports M3U8 links.
+- **User Feedback & New Requirements:**
+    1.  Movies and Series are unwatchable. Integrate the  player for them.
+    2.  The Settings screen is not functional.
+    3.  On the Live TV screen, the channel list should be on the right and the player on the left.
+    4.  Fetch channel logos and translate channel names into Arabic.
+    5.  Update the overall design to match a new mockup provided by the user.
+
+**User's preferred language**: Arabic
+
+**what currently exists?**
+A full-stack application has been developed with a FastAPI backend and an Expo (React Native) frontend. The backend serves channel data from the  API and movie/series metadata from TheMovieDB. The initial version, featuring multiple screens and a basic M3U8 player, was completed and passed initial tests. The agent has now started a major rework based on extensive user feedback, rewriting multiple frontend files and modifying the backend.
+
+**Last working item**:
+    - Last item agent was working: The agent was performing a major overhaul of the application to align with the user's new requirements. It executed a parallel operation to rewrite the frontend (, ) and create new files ( for the new video player, ). It also updated the backend () to support Arabic channel names. This was an attempt to implement the new design, fix video playback, and add the requested features all at once.
+    - Status: IN PROGRESS
+    - Agent Testing Done: N
+    - Which testing method agent to use? both
+    - User Testing Done: N
+
+**All Pending/In progress Issue list**:
+  - **Issue 1: (P0)  dependency is missing.**
+     - Attempted fixes: None. The agent created  which uses a WebView, but forgot to install the required package.
+     - Next debug checklist:
+        1. Run yarn add v1.22.22
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved lockfile.
+success Saved 1 new dependency.
+info Direct dependencies
+└─ react-native-webview@13.16.1
+info All dependencies
+└─ react-native-webview@13.16.1
+Done in 10.00s. in the  directory.
+        2. Restart the 
+  Usage: expo [command] [options]
+
+  Options:
+  
+    -V, --version                     output the version number
+    --non-interactive                 Fail, if an interactive prompt would be required to continue.
+    -h, --help                        output usage information
+  
+  Commands:
+
+    init [name]                       Create a new Expo project
+    start [path]                      Start a local dev server for the app
+    start:web [path]                  Start a Webpack dev server for the web app
+    export [path]                     Export the static files of the app for hosting it on a web server
+    install [packages...]             Install a module or other package to a project
+    run:android [path]                Run the Android app binary locally
+    run:ios [path]                    Run the iOS app binary locally
+    send [path]                       Share the project's URL to an email address
+
+    login                             Login to an Expo account
+    logout                            Logout of an Expo account
+    register                          Sign up for a new Expo account
+    whoami                            Return the currently authenticated account
+
+    client:install:ios                Install Expo Go for iOS on the simulator
+    client:install:android            Install Expo Go for Android on a connected device or emulator
+
+    config [path]                     Show the project config
+    doctor [path]                     Diagnose issues with the project
+    upgrade [sdk-version]             Upgrade the project packages and config for the given SDK version
+
+    customize:web [path]              Eject the default web files for customization
+    prebuild [path]                   Create native iOS and Android project files before building natively.
+                                      Learn more: https://docs.expo.dev/workflow/customizing/
+
+    build:web [path]                  Build the web app for production
+
+    credentials:manager [path]        Superseded by eas credentials in eas-cli
+
+    url [path]                        Log a URL for opening the project in Expo Go
+    url:ipa [path]                    Log the download URL for the standalone iOS binary
+    url:apk [path]                    Log the download URL for the standalone Android binary
+
+    webhooks [path]                   List all webhooks for a project
+    webhooks:add [path]               Add a webhook to a project
+    webhooks:remove [path]            Delete a webhook
+    webhooks:update [path]            Update an existing webhook
+
+    build:ios [path]                  Superseded by eas build in eas-cli
+    build:android [path]              Superseded by eas build in eas-cli
+    build:status [path]               Superseded by eas build:list in eas-cli
+    eject [path]                      Superseded by expo prebuild
+    fetch:ios:certs [path]            Superseded by eas credentials in eas-cli
+    fetch:android:keystore [path]     Superseded by eas credentials in eas-cli
+    fetch:android:hashes [path]       Superseded by eas credentials in eas-cli
+    fetch:android:upload-cert [path]  Superseded by eas credentials in eas-cli
+    publish [path]                    Superseded by eas update in eas-cli
+    publish:set [path]                Superseded by eas update:republish in eas-cli
+    publish:rollback [path]           Superseded by eas update:republish in eas-cli
+    publish:history [path]            Superseded by eas update:list in eas-cli
+    publish:details [path]            Superseded by eas update:view in eas-cli
+    push:android:upload [path]        Superseded by eas credentials in eas-cli
+    push:android:show [path]          Superseded by eas credentials in eas-cli
+    push:android:clear [path]         Superseded by eas credentials in eas-cli
+    upload:android [path]             Superseded by eas submit in eas-cli
+    upload:ios [path]                 Superseded by eas submit in eas-cli
+    client:ios [path]                 Superseded by Expo Dev Clients
+
+[18:29:31]   Run a command with --help for more info 💡
+[18:29:31]     $ expo start --help
+[18:29:31] supervisor service.
+     - Why fix this issue and what will be achieved with the fix? The application will crash when trying to navigate to the movie/series player () without this dependency. This is a blocking issue for the core new feature.
+     - Status:  NOT STARTED
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? Frontend
+     - Blocked on other issue: None.
+
+  - **Issue 2: (P0) Verify the major UI/UX overhaul and feature implementation.**
+     - Attempted fixes: The agent has already rewritten ,  and created , .
+     - Next debug checklist:
+        1. After fixing Issue 1, restart the 
+  Usage: expo [command] [options]
+
+  Options:
+  
+    -V, --version                     output the version number
+    --non-interactive                 Fail, if an interactive prompt would be required to continue.
+    -h, --help                        output usage information
+  
+  Commands:
+
+    init [name]                       Create a new Expo project
+    start [path]                      Start a local dev server for the app
+    start:web [path]                  Start a Webpack dev server for the web app
+    export [path]                     Export the static files of the app for hosting it on a web server
+    install [packages...]             Install a module or other package to a project
+    run:android [path]                Run the Android app binary locally
+    run:ios [path]                    Run the iOS app binary locally
+    send [path]                       Share the project's URL to an email address
+
+    login                             Login to an Expo account
+    logout                            Logout of an Expo account
+    register                          Sign up for a new Expo account
+    whoami                            Return the currently authenticated account
+
+    client:install:ios                Install Expo Go for iOS on the simulator
+    client:install:android            Install Expo Go for Android on a connected device or emulator
+
+    config [path]                     Show the project config
+    doctor [path]                     Diagnose issues with the project
+    upgrade [sdk-version]             Upgrade the project packages and config for the given SDK version
+
+    customize:web [path]              Eject the default web files for customization
+    prebuild [path]                   Create native iOS and Android project files before building natively.
+                                      Learn more: https://docs.expo.dev/workflow/customizing/
+
+    build:web [path]                  Build the web app for production
+
+    credentials:manager [path]        Superseded by eas credentials in eas-cli
+
+    url [path]                        Log a URL for opening the project in Expo Go
+    url:ipa [path]                    Log the download URL for the standalone iOS binary
+    url:apk [path]                    Log the download URL for the standalone Android binary
+
+    webhooks [path]                   List all webhooks for a project
+    webhooks:add [path]               Add a webhook to a project
+    webhooks:remove [path]            Delete a webhook
+    webhooks:update [path]            Update an existing webhook
+
+    build:ios [path]                  Superseded by eas build in eas-cli
+    build:android [path]              Superseded by eas build in eas-cli
+    build:status [path]               Superseded by eas build:list in eas-cli
+    eject [path]                      Superseded by expo prebuild
+    fetch:ios:certs [path]            Superseded by eas credentials in eas-cli
+    fetch:android:keystore [path]     Superseded by eas credentials in eas-cli
+    fetch:android:hashes [path]       Superseded by eas credentials in eas-cli
+    fetch:android:upload-cert [path]  Superseded by eas credentials in eas-cli
+    publish [path]                    Superseded by eas update in eas-cli
+    publish:set [path]                Superseded by eas update:republish in eas-cli
+    publish:rollback [path]           Superseded by eas update:republish in eas-cli
+    publish:history [path]            Superseded by eas update:list in eas-cli
+    publish:details [path]            Superseded by eas update:view in eas-cli
+    push:android:upload [path]        Superseded by eas credentials in eas-cli
+    push:android:show [path]          Superseded by eas credentials in eas-cli
+    push:android:clear [path]         Superseded by eas credentials in eas-cli
+    upload:android [path]             Superseded by eas submit in eas-cli
+    upload:ios [path]                 Superseded by eas submit in eas-cli
+    client:ios [path]                 Superseded by Expo Dev Clients
+
+[18:29:32]   Run a command with --help for more info 💡
+[18:29:32]     $ expo start --help
+[18:29:32] service using expo: stopped
+expo: started.
+        2. Use the  to visually inspect the main screens (, , ) to confirm the new UI loads correctly and matches the user's mockup.
+        3. Test navigation to a movie or series and confirm it opens  with the correct  embed URL.
+        4. Verify the new layout of  (player left, list right).
+        5. Check if channel logos and Arabic names (from the  update) are displayed correctly.
+        6. Check the functionality of the new  page.
+     - Why fix this issue and what will be achieved with the fix? This will validate if the recent massive code changes have successfully addressed all of the user's feedback.
+     - Status:  IN PROGRESS
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? Both
+     - Blocked on other issue: Issue 1.
+
+**In progress Task List**:
+- There are no other in-progress tasks. The current focus is entirely on completing and verifying the overhaul described in All Pending/In progress Issue list.
+
+**Upcoming and Future Tasks**
+- **Upcoming Tasks:**
+  - **(P1) Implement Persistent Favorites:** The current favorites feature is likely using an in-memory list on the server, which is lost on restart. A database like MongoDB should be integrated for persistence.
+- **Future Tasks:**
+  - **(P2) Custom M3U Playlist Import:** Add a feature allowing users to import their own M3U playlists, as suggested in the initial finish message.
+
+**Completed work in this session**
+- **Recently completed:**
+  - Initial MVP of the IPTV app built with FastAPI and Expo. (DONE)
+  - Integrated  for channels and TheMovieDB for movies/series. (DONE)
+  - Implemented basic RTL UI and navigation. (DONE)
+  - Passed initial end-to-end testing via . (DONE)
+  - Fixed minor issues from the initial test report (added testID, added alert feedback). (DONE)
+  - Created project documentation (). (DONE)
+
+**Earlier issues found/mentioned but not fixed**
+   - **Issue 1:** Persistent  errors appear in the expo logs. This is an environmental issue that slows down development but has been worked around by restarting the service. It's not a code bug but could cause delays.
+   - **Issue 2:** The backend logs showed an  warning. This was deemed a minor, non-blocking issue by the  related to  cleanup.
+
+**Known issue recurrence from previous fork**
+  - None.
+
+**Code Architecture**
+
+
+**Key Technical Concepts**
+- **Frontend**: React Native, Expo (SDK 54), Expo Router, TypeScript.
+- **Backend**: Python, FastAPI, in-memory caching.
+- **External APIs**: , TheMovieDB, .
+- **Core Feature**:  is now used for movie/series playback, while  is used for live TV M3U8 streams.
+
+**key DB schema**
+  - **No Database**: The application currently uses an in-memory dictionary () in  for caching API responses. Favorites are not persistently stored.
+
+**changes in tech stack**
+  - The method for playing movies and series has shifted from using  for direct stream links to using  to embed the  website.
+
+**All files of reference**
+*   : Serves all API data, recently updated to include Arabic names for channels.
+*   : **New file.** Hosts the  for the  player.
+*   : **New file.** A placeholder for the settings screen.
+*   : Home screen, overwritten with a new design.
+*   : Live TV screen, overwritten with a new layout (player left, list right).
+*   : Previously the main player, now updated to handle navigation to the new .
+
+**Areas that need refactoring**:
+- **State Management**: The app lacks a centralized state management solution (like Zustand or Context API), which would be beneficial for managing shared state like favorites or user settings.
+- **Persistence**: User data like favorites is not saved. Integrating a database (e.g., MongoDB) is necessary for this.
+
+**key api endpoints**
+*   : Check if initial channel data is loaded.
+*   : Get list of channels (supports pagination, category, search).
+*   : Get popular movies.
+*   : Get popular TV series.
+*   : Unified search for channels, movies, and series.
+
+**Critical Info for New Agent**
+- The app is in the middle of a major overhaul based on user feedback. The last action was a mass-rewrite of frontend files.
+- **You must first install the missing  dependency**, or the app will crash. Run yarn add v1.22.22
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved 1 new dependency.
+info Direct dependencies
+└─ react-native-webview@13.16.1
+info All dependencies
+└─ react-native-webview@13.16.1
+Done in 9.13s. inside .
+- After installing the dependency, restart the 
+  Usage: expo [command] [options]
+
+  Options:
+  
+    -V, --version                     output the version number
+    --non-interactive                 Fail, if an interactive prompt would be required to continue.
+    -h, --help                        output usage information
+  
+  Commands:
+
+    init [name]                       Create a new Expo project
+    start [path]                      Start a local dev server for the app
+    start:web [path]                  Start a Webpack dev server for the web app
+    export [path]                     Export the static files of the app for hosting it on a web server
+    install [packages...]             Install a module or other package to a project
+    run:android [path]                Run the Android app binary locally
+    run:ios [path]                    Run the iOS app binary locally
+    send [path]                       Share the project's URL to an email address
+
+    login                             Login to an Expo account
+    logout                            Logout of an Expo account
+    register                          Sign up for a new Expo account
+    whoami                            Return the currently authenticated account
+
+    client:install:ios                Install Expo Go for iOS on the simulator
+    client:install:android            Install Expo Go for Android on a connected device or emulator
+
+    config [path]                     Show the project config
+    doctor [path]                     Diagnose issues with the project
+    upgrade [sdk-version]             Upgrade the project packages and config for the given SDK version
+
+    customize:web [path]              Eject the default web files for customization
+    prebuild [path]                   Create native iOS and Android project files before building natively.
+                                      Learn more: https://docs.expo.dev/workflow/customizing/
+
+    build:web [path]                  Build the web app for production
+
+    credentials:manager [path]        Superseded by eas credentials in eas-cli
+
+    url [path]                        Log a URL for opening the project in Expo Go
+    url:ipa [path]                    Log the download URL for the standalone iOS binary
+    url:apk [path]                    Log the download URL for the standalone Android binary
+
+    webhooks [path]                   List all webhooks for a project
+    webhooks:add [path]               Add a webhook to a project
+    webhooks:remove [path]            Delete a webhook
+    webhooks:update [path]            Update an existing webhook
+
+    build:ios [path]                  Superseded by eas build in eas-cli
+    build:android [path]              Superseded by eas build in eas-cli
+    build:status [path]               Superseded by eas build:list in eas-cli
+    eject [path]                      Superseded by expo prebuild
+    fetch:ios:certs [path]            Superseded by eas credentials in eas-cli
+    fetch:android:keystore [path]     Superseded by eas credentials in eas-cli
+    fetch:android:hashes [path]       Superseded by eas credentials in eas-cli
+    fetch:android:upload-cert [path]  Superseded by eas credentials in eas-cli
+    publish [path]                    Superseded by eas update in eas-cli
+    publish:set [path]                Superseded by eas update:republish in eas-cli
+    publish:rollback [path]           Superseded by eas update:republish in eas-cli
+    publish:history [path]            Superseded by eas update:list in eas-cli
+    publish:details [path]            Superseded by eas update:view in eas-cli
+    push:android:upload [path]        Superseded by eas credentials in eas-cli
+    push:android:show [path]          Superseded by eas credentials in eas-cli
+    push:android:clear [path]         Superseded by eas credentials in eas-cli
+    upload:android [path]             Superseded by eas submit in eas-cli
+    upload:ios [path]                 Superseded by eas submit in eas-cli
+    client:ios [path]                 Superseded by Expo Dev Clients
+
+[18:29:44]   Run a command with --help for more info 💡
+[18:29:44]     $ expo start --help
+[18:29:44] service (expo: stopped
+expo: started) to load all the new code.
+- Your primary task is to systematically verify that all the user's requested changes have been implemented correctly and that the app is stable. Use screenshots and manual checks for each modified screen.
+
+**documents and test reports created in this job**
+  - 
+  - The testing agent produced a report, but the path was not stored. It can be assumed to be in .
+
+**Last 10 User Messages and any pending HUMAN messages**
+1. **User (Pending)**: Provided a list of critical feedback: unplayable movies/series, request to add  player, broken settings, redesign of live TV layout, add channel logos/Arabic names, and a new design mockup to follow. This is the primary driver for the current work.
+2.  **User**:  (Continue/Proceed).
+3.  **User**: .
+4.  **User**: .
+
+**Project Health Check:**
+- **Broken**: The application frontend is considered broken because it has undergone a massive, unverified file rewrite. Key components for video playback have been changed, and the required dependency () is missing.
+
+**3rd Party Integrations**
+- **iptv-org API**: Provides open-source M3U8 channel streams.
+- **TheMovieDB API**: Provides movie and series metadata. Requires user-provided API key.
+- **videasy.net**: A third-party video embedding service used for playing movies and series.
+
+**Testing status**
+  - Testing agent used after significant changes: YES (once, before the latest user feedback).
+  - Troubleshoot agent used after agent stuck in loop: NO
+  - Test files created: []
+  - Known regressions: The entire UI and movie/series playback functionality has been intentionally changed and is currently in an unverified, likely non-working state.
+
+**Credentials to test flow:**
+- **TheMovieDB API Key**: 
+
+**What agent forgot to execute**
+- The agent forgot to install the  package, which is a mandatory dependency for the newly created  component.
+- The agent did not restart the 
+  Usage: expo [command] [options]
+
+  Options:
+  
+    -V, --version                     output the version number
+    --non-interactive                 Fail, if an interactive prompt would be required to continue.
+    -h, --help                        output usage information
+  
+  Commands:
+
+    init [name]                       Create a new Expo project
+    start [path]                      Start a local dev server for the app
+    start:web [path]                  Start a Webpack dev server for the web app
+    export [path]                     Export the static files of the app for hosting it on a web server
+    install [packages...]             Install a module or other package to a project
+    run:android [path]                Run the Android app binary locally
+    run:ios [path]                    Run the iOS app binary locally
+    send [path]                       Share the project's URL to an email address
+
+    login                             Login to an Expo account
+    logout                            Logout of an Expo account
+    register                          Sign up for a new Expo account
+    whoami                            Return the currently authenticated account
+
+    client:install:ios                Install Expo Go for iOS on the simulator
+    client:install:android            Install Expo Go for Android on a connected device or emulator
+
+    config [path]                     Show the project config
+    doctor [path]                     Diagnose issues with the project
+    upgrade [sdk-version]             Upgrade the project packages and config for the given SDK version
+
+    customize:web [path]              Eject the default web files for customization
+    prebuild [path]                   Create native iOS and Android project files before building natively.
+                                      Learn more: https://docs.expo.dev/workflow/customizing/
+
+    build:web [path]                  Build the web app for production
+
+    credentials:manager [path]        Superseded by eas credentials in eas-cli
+
+    url [path]                        Log a URL for opening the project in Expo Go
+    url:ipa [path]                    Log the download URL for the standalone iOS binary
+    url:apk [path]                    Log the download URL for the standalone Android binary
+
+    webhooks [path]                   List all webhooks for a project
+    webhooks:add [path]               Add a webhook to a project
+    webhooks:remove [path]            Delete a webhook
+    webhooks:update [path]            Update an existing webhook
+
+    build:ios [path]                  Superseded by eas build in eas-cli
+    build:android [path]              Superseded by eas build in eas-cli
+    build:status [path]               Superseded by eas build:list in eas-cli
+    eject [path]                      Superseded by expo prebuild
+    fetch:ios:certs [path]            Superseded by eas credentials in eas-cli
+    fetch:android:keystore [path]     Superseded by eas credentials in eas-cli
+    fetch:android:hashes [path]       Superseded by eas credentials in eas-cli
+    fetch:android:upload-cert [path]  Superseded by eas credentials in eas-cli
+    publish [path]                    Superseded by eas update in eas-cli
+    publish:set [path]                Superseded by eas update:republish in eas-cli
+    publish:rollback [path]           Superseded by eas update:republish in eas-cli
+    publish:history [path]            Superseded by eas update:list in eas-cli
+    publish:details [path]            Superseded by eas update:view in eas-cli
+    push:android:upload [path]        Superseded by eas credentials in eas-cli
+    push:android:show [path]          Superseded by eas credentials in eas-cli
+    push:android:clear [path]         Superseded by eas credentials in eas-cli
+    upload:android [path]             Superseded by eas submit in eas-cli
+    upload:ios [path]                 Superseded by eas submit in eas-cli
+    client:ios [path]                 Superseded by Expo Dev Clients
+
+[18:29:46]   Run a command with --help for more info 💡
+[18:29:46]     $ expo start --help
+[18:29:46] service after overwriting multiple frontend files, so the changes are not yet reflected in the running application.</analysis>

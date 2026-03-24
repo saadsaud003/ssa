@@ -11,6 +11,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 import asyncio
+import re
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -29,6 +30,9 @@ IPTV_STREAMS_URL = 'https://iptv-org.github.io/api/streams.json'
 IPTV_CATEGORIES_URL = 'https://iptv-org.github.io/api/categories.json'
 
 ARABIC_COUNTRIES = {'SA', 'AE', 'EG', 'IQ', 'QA', 'KW', 'BH', 'OM', 'JO', 'SY', 'LB', 'MA', 'DZ', 'TN', 'LY', 'SD', 'YE', 'PS'}
+
+def is_arabic_text(text: str) -> bool:
+    return bool(re.search(r'[\u0600-\u06FF]', text))
 CACHE_TTL_HOURS = 24
 
 app = FastAPI()
@@ -95,9 +99,12 @@ async def fetch_iptv_data(force: bool = False):
             langs = ch.get('languages', [])
             is_arabic = country in ARABIC_COUNTRIES or 'ara' in langs
             cats = ch.get('categories', [])
+            alt_names = ch.get('alt_names', [])
+            arabic_name = next((n for n in alt_names if is_arabic_text(n)), None)
             merged.append({
                 'id': cid,
                 'name': ch.get('name', 'Unknown'),
+                'arabic_name': arabic_name,
                 'logo': ch.get('logo', ''),
                 'category': cats[0] if cats else 'general',
                 'categories': cats,
@@ -133,7 +140,9 @@ async def fetch_iptv_data(force: bool = False):
 @app.on_event("startup")
 async def startup():
     await db.favorites.create_index('item_id')
-    asyncio.create_task(fetch_iptv_data())
+    first_ch = await db.channels.find_one({}, {'arabic_name': 1})
+    needs_refresh = first_ch is None or 'arabic_name' not in first_ch
+    asyncio.create_task(fetch_iptv_data(force=needs_refresh))
 
 
 # ─── Channel Endpoints ─────────────────────────────────────────────────────────
@@ -234,6 +243,35 @@ async def get_popular_movies(page: int = 1, language: str = 'ar'):
         logger.error(f"TMDB movies error: {e}")
         return {'movies': [], 'error': str(e)}
 
+@api_router.get("/movies/discover")
+async def discover_movies(
+    page: int = 1,
+    genre: Optional[int] = None,
+    year: Optional[int] = None,
+    sort_by: str = 'popularity.desc',
+    language: str = 'ar',
+):
+    """Filter movies by genre, year, and sort order."""
+    try:
+        params = f'api_key={TMDB_API_KEY}&language={language}&page={page}&sort_by={sort_by}'
+        if genre:
+            params += f'&with_genres={genre}'
+        if year:
+            params += f'&primary_release_year={year}'
+        if 'vote_average' in sort_by:
+            params += '&vote_count.gte=50'
+        loop = asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: _fetch_url(
+            f'{TMDB_BASE_URL}/discover/movie?{params}', 10))
+        return {
+            'movies': [_tmdb_movie(m) for m in data.get('results', [])],
+            'total_pages': data.get('total_pages', 1),
+            'page': page,
+        }
+    except Exception as e:
+        logger.error(f"TMDB discover movies error: {e}")
+        return {'movies': [], 'error': str(e)}
+
 @api_router.get("/movies/search")
 async def search_movies(query: str, page: int = 1):
     try:
@@ -269,6 +307,45 @@ async def get_popular_series(page: int = 1, language: str = 'ar'):
     except Exception as e:
         logger.error(f"TMDB series error: {e}")
         return {'series': [], 'error': str(e)}
+
+@api_router.get("/series/discover")
+async def discover_series(
+    page: int = 1,
+    genre: Optional[int] = None,
+    year: Optional[int] = None,
+    sort_by: str = 'popularity.desc',
+    language: str = 'ar',
+):
+    """Filter series by genre, year, and sort order."""
+    try:
+        params = f'api_key={TMDB_API_KEY}&language={language}&page={page}&sort_by={sort_by}'
+        if genre:
+            params += f'&with_genres={genre}'
+        if year:
+            params += f'&first_air_date_year={year}'
+        if 'vote_average' in sort_by:
+            params += '&vote_count.gte=50'
+        loop = asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: _fetch_url(
+            f'{TMDB_BASE_URL}/discover/tv?{params}', 10))
+        return {
+            'series': [_tmdb_series(s) for s in data.get('results', [])],
+            'total_pages': data.get('total_pages', 1),
+            'page': page,
+        }
+    except Exception as e:
+        logger.error(f"TMDB discover series error: {e}")
+        return {'series': [], 'error': str(e)}
+
+@api_router.get("/series/genres")
+async def get_series_genres():
+    try:
+        loop = asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: _fetch_url(
+            f'{TMDB_BASE_URL}/genre/tv/list?api_key={TMDB_API_KEY}&language=ar', 10))
+        return {'genres': data.get('genres', [])}
+    except Exception as e:
+        return {'genres': [], 'error': str(e)}
 
 @api_router.get("/series/search")
 async def search_series(query: str, page: int = 1):
